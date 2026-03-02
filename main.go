@@ -64,7 +64,13 @@ func main() {
 			pgPool = pool
 			log.Println("✅ Connected to PostGIS")
 			defer pgPool.Close()
+		} else {
+			// พ่น Error ออกมาถ้าต่อไม่ติด
+			log.Printf("❌ Failed to connect to PostGIS: %v\n", err) 
 		}
+	} else {
+		// แจ้งเตือนถ้าลืมใส่ตัวแปร
+		log.Println("⚠️ DATABASE_URL is missing. Skipping PostGIS connection.") 
 	}
 
 	// ---------------------------------------------------------
