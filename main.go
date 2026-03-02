@@ -50,6 +50,21 @@ func main() {
 		})
 	})
 
+	// 2. Spatial Snap Endpoint 
+	app.Post("/api/spatial/snap", func(c *fiber.Ctx) error {
+		// ดึง Payload ออกมาตรวจสอบคร่าวๆ
+		var body map[string]interface{}
+		if err := c.BodyParser(&body); err != nil {
+			return c.Status(400).JSON(fiber.Map{"error": "Invalid JSON"})
+		}
+
+		return c.JSON(fiber.Map{
+			"message":  "Received request, preparing to send to Python",
+			"target":   pythonURL,
+			"received": body,
+		})
+	})
+
 	log.Printf("🚀 Starting Go API on port %s", port)
 	log.Fatal(app.Listen(":" + port))
 }
