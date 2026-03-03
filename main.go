@@ -15,6 +15,7 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/redis/go-redis/v9"
 	"go.mongodb.org/mongo-driver/bson"
@@ -25,6 +26,11 @@ import (
 func main() {
 	app := fiber.New()
 	ctx := context.Background()
+
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "*", // อนุญาตทุกโดเมน (เพื่อให้ index.html ในเครื่องเรายิงได้)
+		AllowHeaders: "Origin, Content-Type, Accept",
+	}))
 
 	port := os.Getenv("PORT")
 	if port == "" { port = "8080" }
